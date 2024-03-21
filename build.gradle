@@ -2,10 +2,10 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '3.2.4'
     id 'io.spring.dependency-management' version '1.1.4'
+    id "org.openapi.generator" version "7.2.0"
 }
 
 group = 'ua.com.kn921g.games'
-version = '0.0.1-SNAPSHOT'
 
 java {
     sourceCompatibility = '21'
@@ -22,18 +22,53 @@ repositories {
 }
 
 dependencies {
+    implementation 'io.jsonwebtoken:jjwt-api:0.12.5'
+    implementation 'org.openapitools:jackson-databind-nullable:0.2.6'
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.3.0'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.mapstruct:mapstruct:1.5.5.Final'
     implementation 'org.liquibase:liquibase-core'
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.12.5'
+    runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.12.5'
     runtimeOnly 'org.postgresql:postgresql'
     annotationProcessor 'org.projectlombok:lombok'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testImplementation 'org.springframework.security:spring-security-test'
 }
 
-tasks.named('test') {
-    useJUnitPlatform()
+openApiGenerate {
+    generatorName = 'spring'
+    inputSpec = "$projectDir/src/main/resources/openapi.yaml"
+    outputDir = "$projectDir"
+    apiPackage = "${group}.generated.api"
+    modelPackage = "${group}.generated.dto"
+    modelNameSuffix = "Dto"
+    generateModelTests = false
+    generateApiTests = false
+    modelFilesConstrainedTo = [""]
+    apiFilesConstrainedTo = [""]
+    supportingFilesConstrainedTo = ["ApiUtil.java", "HomeController.java", "SpringDocConfiguration.java"]
+    configOptions = [
+            'library'                : 'spring-boot',
+            'java8'                  : 'true',
+            'delegatePattern'        : 'true',
+            'hideGenerationTimestamp': 'true',
+            'useSpringBoot3'         : 'true',
+            'configPackage'          : "${group}.generated.config",
+            'useTags'                : 'true'
+    ]
+    templateDir = "$projectDir/src/main/resources/templates"
 }
+compileJava.dependsOn tasks.openApiGenerate
+processResources.mustRunAfter ':openApiGenerate'
+
+clean {
+    delete "${projectDir}/src/main/java/org"
+    delete "${projectDir}/src/main/java/ua/com/kn921g/games/gamescoredesk/generated"
+    delete "${projectDir}/src/test/java/org"
+}
+

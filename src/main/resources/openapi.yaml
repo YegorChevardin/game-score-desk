@@ -1,0 +1,96 @@
+openapi: 3.0.3
+info:
+  description: Mimosa API for front end and customers
+  title: Mimosa CMS API
+  version: 0.0.1
+servers:
+  - url: /
+security:
+  - bearerAuth: [ ]
+tags:
+  - name: Registration
+  - name: Authentication
+  - name: Actuator
+
+paths:
+  /api/v1/auth/login:
+    post:
+      description: This endpoint responsible for logging in into the system
+      operationId: userLogin
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginResponse'
+          description: Access and refresh token successfully created
+        '400':
+          description: 'Bad request'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationExceptionResponse'
+        '401':
+          description: 'Unauthorized'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationExceptionResponse'
+      summary: Login into system
+      tags:
+        - Authentication
+
+components:
+  schemas:
+    LoginRequest:
+      properties:
+        username:
+          type: string
+          pattern: '^(?=[a-zA-Z0-9._]{8,20}$)(?!.*[_.]{2})[^_.].*[^_.]$'
+          example: 'Your.Username'
+          minLength: 8
+          maxLength: 20
+        password:
+          pattern: "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$"
+          example: "Qwerty123!3"
+          type: string
+          minLength: 8
+          maxLength: 255
+      type: object
+      required:
+        - username
+        - password
+    LoginResponse:
+      example:
+        accessToken: string
+      properties:
+        accessToken:
+          type: string
+      type: object
+
+    ApplicationExceptionResponse:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+          description: 'Response status code'
+          example: '400'
+        message:
+          type: string
+          description: 'Code message'
+          example: 'Bad Request'
+        exceptionMessage:
+          type: string
+          description: 'Exception message'
+          example: 'Message'
+        timestamp:
+          type: string
+          format: date-time
+          description: 'Date and time'
+          example: '2020-01-01T00:00:00Z'
