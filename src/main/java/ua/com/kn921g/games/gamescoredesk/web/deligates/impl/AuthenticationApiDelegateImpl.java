@@ -3,10 +3,10 @@ package ua.com.kn921g.games.gamescoredesk.web.deligates.impl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import ua.com.kn921g.games.gamescoredesk.generated.api.AuthenticationApiDelegate;
+import ua.com.kn921g.games.gamescoredesk.generated.dto.LoginRequestDto;
+import ua.com.kn921g.games.gamescoredesk.generated.dto.LoginResponseDto;
 import ua.com.kn921g.games.gamescoredesk.service.AuthenticationService;
-import ua.com.kn921g.games.generated.api.AuthenticationApiDelegate;
-import ua.com.kn921g.games.generated.dto.LoginRequestDto;
-import ua.com.kn921g.games.generated.dto.LoginResponseDto;
 
 @Component
 @RequiredArgsConstructor

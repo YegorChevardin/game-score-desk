@@ -1,9 +1,47 @@
 spring:
   datasource:
-    url: jdbc:postgresql://${DB_HOSTNAME:localhost}:${DB_PORT:5432}/${DB_NAME:gamescoreboard}
-    username: ${DB_USERNAME:gamescoreboard}
+    url: jdbc:postgresql://${DB_HOSTNAME:localhost}:${DB_PORT:3307}/${DB_NAME:gamescoreboard}
+    username: ${DB_USERNAME:postgres}
     password: ${DB_PASSWORD:password}
+  liquibase:
+    change-log: classpath:liquibase/db.changelog-master.yaml
   application:
     name: game-score-desk
 application:
   secretKey: ${SECRET_KEY:9a4f2c8d3b7a1e6f45c8a0b3f267d8b1d4e6f3c8a9d2b5f8e3a9c8b5f6v8a3d9}
+logging:
+  file:
+    path: ${LOG_FILE_PATH:./logs}
+    name: ${logging.file.path}/game-score-board.log
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+          - health
+          - liquibase
+          - env
+          - info
+          - refresh
+  endpoint:
+    health:
+      show-details: always
+    env:
+      enabled: true
+    info:
+      enabled: true
+  info:
+    env:
+      enabled: true
+    build:
+      enabled: true
+    git:
+      enabled: false
+      mode: full
+    java:
+      enabled: true
+    os:
+      enabled: true
+springdoc:
+  show-actuator: true
+  show-login-endpoint: true

@@ -1,0 +1,43 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-users-table
+      author: Yehor Chevardin
+      changes:
+        - createTable:
+            tableName: users
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  constraints:
+                    unique: true
+                    notNull: true
+                    primaryKey: true
+              - column:
+                  name: username
+                  type: varchar(255)
+                  constraints:
+                    notNull: true
+                    unique: true
+              - column:
+                  name: password
+                  type: varchar(255)
+                  constraints:
+                    notNull: true
+              - column:
+                  name: role
+                  type: varchar(255)
+                  constraints:
+                    notNull: true
+              - column:
+                  name: total_score
+                  type: integer
+                  defaultValue: 0
+                  constraints:
+                    notNull: true
+              - column:
+                  name: last_score
+                  type: integer
+                  defaultValue: 0
+                  constraints:
+                    notNull: true

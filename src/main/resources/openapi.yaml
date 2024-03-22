@@ -1,15 +1,15 @@
 openapi: 3.0.3
 info:
-  description: Mimosa API for front end and customers
-  title: Mimosa CMS API
+  description: Gameboard API for controlling score of the users in the game
+  title: Gameboard API
   version: 0.0.1
 servers:
   - url: /
 security:
   - bearerAuth: [ ]
 tags:
-  - name: Registration
   - name: Authentication
+  - name: GameBoard
   - name: Actuator
 
 paths:
@@ -30,6 +30,12 @@ paths:
               schema:
                 $ref: '#/components/schemas/LoginResponse'
           description: Access and refresh token successfully created
+        '404':
+          description: 'Not found'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationExceptionResponse'
         '400':
           description: 'Bad request'
           content:
@@ -43,6 +49,44 @@ paths:
               schema:
                 $ref: '#/components/schemas/ApplicationExceptionResponse'
       summary: Login into system
+      tags:
+        - Authentication
+  /api/v1/auth/register:
+    post:
+      description: This endpoint responsible for registering user in the system
+      operationId: userRegister
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRegisterRequest'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+          description: User successfully registered
+        '404':
+          description: 'Not found'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationExceptionResponse'
+        '400':
+          description: 'Bad request'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationExceptionResponse'
+        '401':
+          description: 'Unauthorized'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationExceptionResponse'
+      summary: Register user in the system
       tags:
         - Authentication
 
@@ -74,6 +118,53 @@ components:
           type: string
       type: object
 
+    UserRegisterRequest:
+      properties:
+        username:
+          type: string
+          pattern: '^(?=[a-zA-Z0-9._]{8,20}$)(?!.*[_.]{2})[^_.].*[^_.]$'
+          example: 'Your.Username'
+          minLength: 8
+          maxLength: 20
+        password:
+          pattern: "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$"
+          example: "Qwerty123!3"
+          type: string
+          minLength: 8
+          maxLength: 255
+      type: object
+      required:
+        - username
+        - password
+    UserUpdateRequest:
+      properties:
+        id:
+          type: string
+        username:
+          type: string
+          pattern: '^(?=[a-zA-Z0-9._]{8,20}$)(?!.*[_.]{2})[^_.].*[^_.]$'
+          example: 'Your.Username'
+          minLength: 8
+          maxLength: 20
+        password:
+          pattern: "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$"
+          example: "Qwerty123!3"
+          type: string
+          minLength: 8
+          maxLength: 255
+      type: object
+      required:
+        - id
+        - username
+        - password
+    UserResponse:
+      properties:
+        id:
+          type: string
+        username:
+          type: string
+      type: object
+
     ApplicationExceptionResponse:
       type: object
       properties:
@@ -94,3 +185,61 @@ components:
           format: date-time
           description: 'Date and time'
           example: '2020-01-01T00:00:00Z'
+    ApplicationMethodArgumentNotValidResponse:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/ApplicationExceptionResponse'
+      properties:
+        validationErrors:
+          type: array
+          items:
+            $ref: '#/components/schemas/InvalidField'
+    InvalidField:
+      type: object
+      properties:
+        fieldName:
+          type: string
+        validationError:
+          type: string
+  examples:
+    TokenIsNotValid:
+      value:
+        statusCode: '400'
+        message: 'Bad request'
+        exceptionMessage: "Specified token for verification is not valid!"
+        timestamp: '2020-01-01T00:00:00Z'
+    UsernameOrEmailOrPasswordNotValid:
+      value:
+        statusCode: '401'
+        message: 'Unauthorized'
+        exceptionMessage: "Invalid credentials, try again!"
+        timestamp: '2020-01-01T00:00:00Z'
+    UserWithSuchCredentialsAlreadyExist:
+      value:
+        statusCode: '409'
+        message: 'Conflict'
+        exceptionMessage: "User with such credentials already exist!"
+        timestamp: '2020-01-01T00:00:00Z'
+    UserNotFound:
+      value:
+        statusCode: '404'
+        message: 'Not found'
+        exceptionMessage: "User with such credentials not found!"
+        timestamp: '2020-01-01T00:00:00Z'
+    Unauthorized:
+      value:
+        statusCode: '401'
+        message: 'Unauthorized'
+        exceptionMessage: "User is not authorized."
+        timestamp: '2020-01-01T00:00:00Z'
+    NotEnoughRightsForThisAction:
+      value:
+        statusCode: '403'
+        message: 'Forbidden'
+        exceptionMessage: "Not enough rights for this action"
+        timestamp: '2020-01-01T00:00:00Z'
+  securitySchemes:
+    bearerAuth:
+      bearerFormat: JWT
+      scheme: bearer
+      type: http

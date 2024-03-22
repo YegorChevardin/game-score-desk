@@ -41,7 +41,7 @@ out/
 .env-local
 
 ### Openapi generator ###
-/src/main/java/ua/com/kn921g/games/generated
+/src/main/java/ua/com/kn921g/games/gamescoredesk/generated
 /.openapi-generator/
 /src/main/java/org/openapitools
 
