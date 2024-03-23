@@ -15,14 +15,14 @@ tracking user scores independently to game environment.
 
 To deploy the project locally, follow these steps:
 
-1. Clone the git repository.
-2. Navigate to the project directory.
-3. Run the following command:
+1. Install and start-up Docker on your machine.
+2. Clone the git repository.
+3. Navigate to the project directory.
+4. Run the following command:
    ```
    docker-compose up
    ```
-   This command will start the necessary services defined in the docker-compose file and start game board on your local
-   machine at port `8080`.
+   This command will start the necessary services defined in the docker-compose file and start game board localy at port `8080`.
 
 ### Production
 
