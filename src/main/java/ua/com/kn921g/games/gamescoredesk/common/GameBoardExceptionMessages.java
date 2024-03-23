@@ -10,7 +10,9 @@ public enum GameBoardExceptionMessages {
   USER_NOT_FOUND("User not found"),
   USER_EXISTS("User with such username already exists"),
   CREDENTIALS_NOT_VALID("Credentials are not valid"),
-  DTO_IS_NOT_VALID("Dto is not valid");
+  DTO_IS_NOT_VALID("Dto is not valid"),
+  SCORE_TYPE_IS_NOT_VALID("Score type is not valid"),
+  SCORE_IS_NOT_VALID("Score is not valid");
 
   private final String message;
 

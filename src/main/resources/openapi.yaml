@@ -233,7 +233,6 @@ paths:
           name: newScore
           schema:
             type: integer
-            pattern: '^[1-9]\d*$'
           required: true
       responses:
         "200":
@@ -260,6 +259,25 @@ paths:
     get:
       description: This endpoint responsible for getting scores information
       operationId: findScore
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+            default: 0
+          required: false
+        - in: query
+          name: size
+          schema:
+            type: integer
+            default: 10
+          required: false
+        - in: query
+          name: scoreType
+          schema:
+            type: string
+            default: 'lastScore'
+            pattern: '\b(?:lastScore|totalScore)\b'
       responses:
         "200":
           content:
@@ -377,9 +395,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/UserFullResponse'
-        playerPlaceByLastScore:
-          type: integer
-        playerPlaceByTotalScore:
+        playerPlace:
           type: integer
         size:
           type: integer
