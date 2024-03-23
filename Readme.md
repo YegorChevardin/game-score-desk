@@ -45,4 +45,7 @@ To deploy the project in a production environment, follow these steps:
     - Set score
     - Get score
 
+## Fake Users
+You can manage and access fake users: [fake users](./docs/FakeUsers.md)
+
 &copy; Yehor Chevardin

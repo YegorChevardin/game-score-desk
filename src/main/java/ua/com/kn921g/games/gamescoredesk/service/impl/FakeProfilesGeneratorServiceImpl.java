@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ua.com.kn921g.games.gamescoredesk.models.GeneratedUsers;
@@ -19,6 +20,7 @@ import static ua.com.kn921g.games.gamescoredesk.common.GameScoreBoardConstants.F
 @RequiredArgsConstructor
 public class FakeProfilesGeneratorServiceImpl implements FakeProfilesGeneratorService {
   private final UserRepository userRepository;
+  private final PasswordEncoder passwordEncoder;
   private final ObjectMapper objectMapper;
 
   @Override
@@ -29,7 +31,11 @@ public class FakeProfilesGeneratorServiceImpl implements FakeProfilesGeneratorSe
     List<User> userEntities = generatedUsers.generatedUsers();
     userEntities.stream()
         .filter(user -> !userRepository.existsByUsername(user.getUsername()))
-        .forEach(userRepository::save);
+        .forEach(
+            (user) -> {
+              user.setPassword(passwordEncoder.encode(user.getPassword()));
+              userRepository.save(user);
+            });
 
     return generatedUsers;
   }

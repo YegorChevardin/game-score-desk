@@ -1,3 +1,8 @@
+# Fake users to use
+
+Here you can find fake users with fake scores that you can use.
+
+```json
 {
   "generatedUsers": [
     {
@@ -72,3 +77,5 @@
     }
   ]
 }
+
+```
