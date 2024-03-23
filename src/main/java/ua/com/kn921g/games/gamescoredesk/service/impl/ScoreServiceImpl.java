@@ -36,12 +36,12 @@ public class ScoreServiceImpl implements ScoreService {
     PageRequest pageRequest = PageRequest.of(page, size, Sort.by(scoreType).descending());
     Page<User> scores = userRepository.findAll(pageRequest);
 
-    UUID currentUserId = findCurrentUserEntity().getId();
+    User currentUser = findCurrentUserEntity();
     Integer userPlace;
     if (ScoreType.LAST_SCORE.getName().equalsIgnoreCase(scoreType)) {
-      userPlace = userRepository.findUserPlaceByLastScore(currentUserId);
+      userPlace = userRepository.findUserPlaceByLastScore(currentUser.getLastScore());
     } else if (ScoreType.TOTAL_SCORE.getName().equalsIgnoreCase(scoreType)) {
-      userPlace = userRepository.findUserPlaceByTotalScore(currentUserId);
+      userPlace = userRepository.findUserPlaceByTotalScore(currentUser.getTotalScore());
     } else {
       throw new BadRequest400Exception(
           GameBoardExceptionMessages.SCORE_TYPE_IS_NOT_VALID.getMessage());
