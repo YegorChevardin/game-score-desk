@@ -1,0 +1,482 @@
+openapi: 3.0.3
+info:
+  description: Gameboard API for controlling score of the users in the game
+  title: Gameboard API
+  version: 0.0.1
+servers:
+  - url: /
+security:
+  - bearerAuth: [ ]
+tags:
+  - name: Authentication
+  - name: GameBoard
+  - name: Profile
+  - name: Actuator
+
+paths:
+  /api/v1/auth/login:
+    post:
+      description: This endpoint responsible for logging in into the system
+      operationId: userLogin
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginResponse'
+          description: Access and refresh token successfully created
+        '404':
+          description: 'Not found'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationExceptionResponse'
+        '400':
+          description: 'Bad request'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationExceptionResponse'
+        '401':
+          description: 'Unauthorized'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationExceptionResponse'
+      summary: Login into system
+      tags:
+        - Authentication
+  /api/v1/auth/register:
+    post:
+      description: This endpoint responsible for registering user in the system
+      operationId: userRegister
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRegisterRequest'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+          description: User successfully registered
+        '404':
+          description: 'Not found'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationExceptionResponse'
+        '400':
+          description: 'Bad request'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationExceptionResponse'
+        '401':
+          description: 'Unauthorized'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationExceptionResponse'
+      summary: Register user in the system
+      tags:
+        - Authentication
+  /api/v1/profiles/profile:
+    delete:
+      description: This endpoint responsible for deleting user
+      operationId: userDelete
+      parameters:
+        - in: query
+          name: password
+          schema:
+            type: string
+          required: true
+      responses:
+        "200":
+          description: User successfully deleted
+        '404':
+          description: 'Not found'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationExceptionResponse'
+        '400':
+          description: 'Bad request'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationExceptionResponse'
+        '401':
+          description: 'Unauthorized'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationExceptionResponse'
+      summary: Delete user in the system
+      tags:
+        - Profile
+    put:
+      description: This endpoint responsible for updating user information
+      operationId: userUpdate
+      parameters:
+        - in: query
+          name: oldPassword
+          schema:
+            type: string
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRegisterRequest'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+          description: User successfully updated
+        '404':
+          description: 'Not found'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationExceptionResponse'
+        '400':
+          description: 'Bad request'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationExceptionResponse'
+        '401':
+          description: 'Unauthorized'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationExceptionResponse'
+      summary: Update user in the system
+      tags:
+        - Profile
+    get:
+      description: This endpoint responsible for getting profile information
+      operationId: userProfile
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserFullResponse'
+          description: User information successfully retrieved
+        '404':
+          description: 'Not found'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationExceptionResponse'
+        '401':
+          description: 'Unauthorized'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationExceptionResponse'
+      summary: Viewing user profile info
+      tags:
+        - Profile
+
+  /api/v1/scores:
+    delete:
+      description: This endpoint responsible for resetting score for profile
+      operationId: resetScore
+      parameters:
+        - in: query
+          name: oldPassword
+          schema:
+            type: string
+          required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserFullResponse'
+          description: Scores information successfully reset
+        '404':
+          description: 'Not found'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationExceptionResponse'
+        '401':
+          description: 'Unauthorized'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationExceptionResponse'
+      summary: Resetting scores information
+      tags:
+        - GameBoard
+    post:
+      description: This endpoint responsible for setting score for profile
+      operationId: setScore
+      parameters:
+        - in: query
+          name: newScore
+          schema:
+            type: integer
+          required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserFullResponse'
+          description: Scores information successfully updated
+        '404':
+          description: 'Not found'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationExceptionResponse'
+        '401':
+          description: 'Unauthorized'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationExceptionResponse'
+      summary: Updating scores information
+      tags:
+        - GameBoard
+    get:
+      description: This endpoint responsible for getting scores information
+      operationId: findScore
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+            default: 0
+          required: false
+        - in: query
+          name: size
+          schema:
+            type: integer
+            default: 10
+          required: false
+        - in: query
+          name: scoreType
+          schema:
+            type: string
+            default: 'lastScore'
+            pattern: '\b(?:lastScore|totalScore)\b'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScoresInformation'
+          description: Scores information successfully retrieved
+        '404':
+          description: 'Not found'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationExceptionResponse'
+        '401':
+          description: 'Unauthorized'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationExceptionResponse'
+      summary: Viewing scores information
+      tags:
+        - GameBoard
+
+components:
+  schemas:
+    LoginRequest:
+      properties:
+        username:
+          type: string
+          pattern: '^(?=[a-zA-Z0-9._]{8,20}$)(?!.*[_.]{2})[^_.].*[^_.]$'
+          example: 'Your.Username'
+          minLength: 8
+          maxLength: 20
+        password:
+          pattern: "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$"
+          example: "Qwerty123!3"
+          type: string
+          minLength: 8
+          maxLength: 255
+      type: object
+      required:
+        - username
+        - password
+    LoginResponse:
+      example:
+        accessToken: string
+      properties:
+        accessToken:
+          type: string
+      type: object
+
+    UserRegisterRequest:
+      properties:
+        username:
+          type: string
+          pattern: '^(?=[a-zA-Z0-9._]{8,20}$)(?!.*[_.]{2})[^_.].*[^_.]$'
+          example: 'Your.Username'
+          minLength: 8
+          maxLength: 20
+        password:
+          pattern: "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$"
+          example: "Qwerty123!3"
+          type: string
+          minLength: 8
+          maxLength: 255
+      type: object
+      required:
+        - username
+        - password
+    UserUpdateRequest:
+      properties:
+        id:
+          type: string
+        username:
+          type: string
+          pattern: '^(?=[a-zA-Z0-9._]{8,20}$)(?!.*[_.]{2})[^_.].*[^_.]$'
+          example: 'Your.Username'
+          minLength: 8
+          maxLength: 20
+        password:
+          pattern: "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$"
+          example: "Qwerty123!3"
+          type: string
+          minLength: 8
+          maxLength: 255
+      type: object
+      required:
+        - id
+        - username
+        - password
+    UserResponse:
+      properties:
+        id:
+          type: string
+        username:
+          type: string
+      type: object
+
+    UserFullResponse:
+      properties:
+        id:
+          type: string
+        username:
+          type: string
+        totalScore:
+          type: integer
+        lastScore:
+          type: integer
+      type: object
+
+    ScoresInformation:
+      type: object
+      properties:
+        users:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserFullResponse'
+        playerPlace:
+          type: integer
+        size:
+          type: integer
+        page:
+          type: integer
+
+    ApplicationExceptionResponse:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+          description: 'Response status code'
+          example: '400'
+        message:
+          type: string
+          description: 'Code message'
+          example: 'Bad Request'
+        exceptionMessage:
+          type: string
+          description: 'Exception message'
+          example: 'Message'
+        timestamp:
+          type: string
+          format: date-time
+          description: 'Date and time'
+          example: '2020-01-01T00:00:00Z'
+    ApplicationMethodArgumentNotValidResponse:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/ApplicationExceptionResponse'
+      properties:
+        validationErrors:
+          type: array
+          items:
+            $ref: '#/components/schemas/InvalidField'
+    InvalidField:
+      type: object
+      properties:
+        fieldName:
+          type: string
+        validationError:
+          type: string
+  examples:
+    TokenIsNotValid:
+      value:
+        statusCode: '400'
+        message: 'Bad request'
+        exceptionMessage: "Specified token for verification is not valid!"
+        timestamp: '2020-01-01T00:00:00Z'
+    UsernameOrEmailOrPasswordNotValid:
+      value:
+        statusCode: '401'
+        message: 'Unauthorized'
+        exceptionMessage: "Invalid credentials, try again!"
+        timestamp: '2020-01-01T00:00:00Z'
+    UserWithSuchCredentialsAlreadyExist:
+      value:
+        statusCode: '409'
+        message: 'Conflict'
+        exceptionMessage: "User with such credentials already exist!"
+        timestamp: '2020-01-01T00:00:00Z'
+    UserNotFound:
+      value:
+        statusCode: '404'
+        message: 'Not found'
+        exceptionMessage: "User with such credentials not found!"
+        timestamp: '2020-01-01T00:00:00Z'
+    Unauthorized:
+      value:
+        statusCode: '401'
+        message: 'Unauthorized'
+        exceptionMessage: "User is not authorized."
+        timestamp: '2020-01-01T00:00:00Z'
+    NotEnoughRightsForThisAction:
+      value:
+        statusCode: '403'
+        message: 'Forbidden'
+        exceptionMessage: "Not enough rights for this action"
+        timestamp: '2020-01-01T00:00:00Z'
+  securitySchemes:
+    bearerAuth:
+      bearerFormat: JWT
+      scheme: bearer
+      type: http

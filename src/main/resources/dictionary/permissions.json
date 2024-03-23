@@ -1,0 +1,9 @@
+{
+  "user": [
+    "READ_OWN_PROFILE",
+    "UPDATE_OWN_PROFILE",
+    "DELETE_OWN_PROFILE",
+    "UPDATE_OWN_SCORE",
+    "SEE_SCORE"
+  ]
+}
