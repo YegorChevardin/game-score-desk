@@ -1,0 +1,43 @@
+version: '3.5'
+networks:
+  gameboard_network:
+volumes:
+  db_data:
+services:
+  gameboard:
+    build:
+      dockerfile: Dockerfile
+    image: gameboard
+    ports:
+      - "8080:8080"
+    networks:
+      gameboard_network:
+    environment:
+      DB_HOSTNAME: postgres
+      DB_PORT: 5432
+      DB_NAME: postgres
+      DB_USERNAME: postgres
+      DB_PASSWORD: password
+    depends_on:
+      - postgres
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8080/api/v1/actuator/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+  postgres:
+    image: postgres:latest
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    volumes:
+      - db_data:/var/lib/db
+    restart: always
+    networks:
+      gameboard_network:

@@ -11,7 +11,7 @@ import ua.com.kn921g.games.gamescoredesk.common.exceptions.impl.DataNotFoundExce
 import ua.com.kn921g.games.gamescoredesk.generated.dto.UserFullResponseDto;
 import ua.com.kn921g.games.gamescoredesk.generated.dto.UserRegisterRequestDto;
 import ua.com.kn921g.games.gamescoredesk.generated.dto.UserResponseDto;
-import ua.com.kn921g.games.gamescoredesk.models.User;
+import ua.com.kn921g.games.gamescoredesk.models.entities.User;
 import ua.com.kn921g.games.gamescoredesk.models.mappers.EntityToUserFullInformationMapper;
 import ua.com.kn921g.games.gamescoredesk.models.mappers.EntityToUserResponseMapper;
 import ua.com.kn921g.games.gamescoredesk.repositories.UserRepository;
