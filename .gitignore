@@ -35,3 +35,16 @@ out/
 
 ### VS Code ###
 .vscode/
+
+### ENV files ###
+.env
+.env-local
+
+### Openapi generator ###
+/src/main/java/ua/com/kn921g/games/gamescoredesk/generated
+/.openapi-generator/
+/src/main/java/org/openapitools
+
+### Logs file and directory ###
+logs
+

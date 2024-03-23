@@ -1,0 +1,81 @@
+# Fake users to use
+
+Here you can find fake users with fake scores that you can use.
+
+```json
+{
+  "generatedUsers": [
+    {
+      "username": "Diluc",
+      "password": "Qwerty!1",
+      "totalScore": 100,
+      "lastScore": 50,
+      "role": "USER"
+    },
+    {
+      "username": "Jean",
+      "password": "Qwerty!1",
+      "totalScore": 150,
+      "lastScore": 75,
+      "role": "USER"
+    },
+    {
+      "username": "Venti",
+      "password": "Qwerty!1",
+      "totalScore": 200,
+      "lastScore": 100,
+      "role": "USER"
+    },
+    {
+      "username": "Keqing",
+      "password": "Qwerty!1",
+      "totalScore": 180,
+      "lastScore": 90,
+      "role": "USER"
+    },
+    {
+      "username": "Mona",
+      "password": "Qwerty!1",
+      "totalScore": 220,
+      "lastScore": 110,
+      "role": "USER"
+    },
+    {
+      "username": "Zhongli",
+      "password": "Qwerty!1",
+      "totalScore": 250,
+      "lastScore": 125,
+      "role": "USER"
+    },
+    {
+      "username": "Ganyu",
+      "password": "Qwerty!1",
+      "totalScore": 190,
+      "lastScore": 95,
+      "role": "USER"
+    },
+    {
+      "username": "Xiao",
+      "password": "Qwerty!1",
+      "totalScore": 230,
+      "lastScore": 115,
+      "role": "USER"
+    },
+    {
+      "username": "Klee",
+      "password": "Qwerty!1",
+      "totalScore": 270,
+      "lastScore": 135,
+      "role": "USER"
+    },
+    {
+      "username": "Tartaglia",
+      "password": "Qwerty!1",
+      "totalScore": 210,
+      "lastScore": 105,
+      "role": "USER"
+    }
+  ]
+}
+
+```
