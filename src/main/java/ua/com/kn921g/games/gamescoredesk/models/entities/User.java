@@ -1,4 +1,4 @@
-package ua.com.kn921g.games.gamescoredesk.models;
+package ua.com.kn921g.games.gamescoredesk.models.entities;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

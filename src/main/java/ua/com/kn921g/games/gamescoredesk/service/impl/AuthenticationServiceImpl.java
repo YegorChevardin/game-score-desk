@@ -12,7 +12,7 @@ import ua.com.kn921g.games.gamescoredesk.generated.dto.LoginRequestDto;
 import ua.com.kn921g.games.gamescoredesk.generated.dto.LoginResponseDto;
 import ua.com.kn921g.games.gamescoredesk.generated.dto.UserRegisterRequestDto;
 import ua.com.kn921g.games.gamescoredesk.generated.dto.UserResponseDto;
-import ua.com.kn921g.games.gamescoredesk.models.User;
+import ua.com.kn921g.games.gamescoredesk.models.entities.User;
 import ua.com.kn921g.games.gamescoredesk.models.mappers.EntityToUserResponseMapper;
 import ua.com.kn921g.games.gamescoredesk.models.mappers.UserRegisterRequestToEntityMapper;
 import ua.com.kn921g.games.gamescoredesk.models.security.Role;

@@ -1,0 +1,74 @@
+{
+  "generatedUsers": [
+    {
+      "username": "Diluc",
+      "password": "q82hTkS#",
+      "totalScore": 100,
+      "lastScore": 50,
+      "role": "USER"
+    },
+    {
+      "username": "Jean",
+      "password": "pO9Ls3@!",
+      "totalScore": 150,
+      "lastScore": 75,
+      "role": "USER"
+    },
+    {
+      "username": "Venti",
+      "password": "mK4eRtW$",
+      "totalScore": 200,
+      "lastScore": 100,
+      "role": "USER"
+    },
+    {
+      "username": "Keqing",
+      "password": "lP5gYvD%",
+      "totalScore": 180,
+      "lastScore": 90,
+      "role": "USER"
+    },
+    {
+      "username": "Mona",
+      "password": "nJ7uQwF@",
+      "totalScore": 220,
+      "lastScore": 110,
+      "role": "USER"
+    },
+    {
+      "username": "Zhongli",
+      "password": "oZ8iAxG^",
+      "totalScore": 250,
+      "lastScore": 125,
+      "role": "USER"
+    },
+    {
+      "username": "Ganyu",
+      "password": "aB6cUyH*",
+      "totalScore": 190,
+      "lastScore": 95,
+      "role": "USER"
+    },
+    {
+      "username": "Xiao",
+      "password": "rF9dEsV(",
+      "totalScore": 230,
+      "lastScore": 115,
+      "role": "USER"
+    },
+    {
+      "username": "Klee",
+      "password": "sT0fGhJ)",
+      "totalScore": 270,
+      "lastScore": 135,
+      "role": "USER"
+    },
+    {
+      "username": "Tartaglia",
+      "password": "tE1qWsZ_",
+      "totalScore": 210,
+      "lastScore": 105,
+      "role": "USER"
+    }
+  ]
+}

@@ -3,13 +3,15 @@ package ua.com.kn921g.games.gamescoredesk.repositories;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import ua.com.kn921g.games.gamescoredesk.models.User;
+import ua.com.kn921g.games.gamescoredesk.models.entities.User;
 
 import java.util.Optional;
 import java.util.UUID;
 
 public interface UserRepository extends JpaRepository<User, UUID> {
     Optional<User> findByUsername(String username);
+
+    boolean existsByUsername(String username);
 
     @Query("SELECT COUNT(*) + 1 " +
             "FROM User u " +
