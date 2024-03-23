@@ -8,6 +8,7 @@ public enum GameBoardExceptionMessages {
   USER_NOT_AUTHORIZED("User is not authorized"),
   TOKEN_IS_NOT_VALID("Token is not valid"),
   USER_NOT_FOUND("User not found"),
+  USER_EXISTS("User with such username already exists"),
   CREDENTIALS_NOT_VALID("Credentials are not valid"),
   DTO_IS_NOT_VALID("Dto is not valid");
 

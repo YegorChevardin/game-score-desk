@@ -10,6 +10,7 @@ security:
 tags:
   - name: Authentication
   - name: GameBoard
+  - name: Profile
   - name: Actuator
 
 paths:
@@ -89,6 +90,198 @@ paths:
       summary: Register user in the system
       tags:
         - Authentication
+  /api/v1/profiles/profile:
+    delete:
+      description: This endpoint responsible for deleting user
+      operationId: userDelete
+      parameters:
+        - in: query
+          name: password
+          schema:
+            type: string
+          required: true
+      responses:
+        "200":
+          description: User successfully deleted
+        '404':
+          description: 'Not found'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationExceptionResponse'
+        '400':
+          description: 'Bad request'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationExceptionResponse'
+        '401':
+          description: 'Unauthorized'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationExceptionResponse'
+      summary: Delete user in the system
+      tags:
+        - Profile
+    put:
+      description: This endpoint responsible for updating user information
+      operationId: userUpdate
+      parameters:
+        - in: query
+          name: oldPassword
+          schema:
+            type: string
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRegisterRequest'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+          description: User successfully updated
+        '404':
+          description: 'Not found'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationExceptionResponse'
+        '400':
+          description: 'Bad request'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationExceptionResponse'
+        '401':
+          description: 'Unauthorized'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationExceptionResponse'
+      summary: Update user in the system
+      tags:
+        - Profile
+    get:
+      description: This endpoint responsible for getting profile information
+      operationId: userProfile
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserFullResponse'
+          description: User information successfully retrieved
+        '404':
+          description: 'Not found'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationExceptionResponse'
+        '401':
+          description: 'Unauthorized'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationExceptionResponse'
+      summary: Viewing user profile info
+      tags:
+        - Profile
+
+  /api/v1/scores:
+    delete:
+      description: This endpoint responsible for resetting score for profile
+      operationId: resetScore
+      parameters:
+        - in: query
+          name: oldPassword
+          schema:
+            type: string
+          required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserFullResponse'
+          description: Scores information successfully reset
+        '404':
+          description: 'Not found'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationExceptionResponse'
+        '401':
+          description: 'Unauthorized'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationExceptionResponse'
+      summary: Resetting scores information
+      tags:
+        - GameBoard
+    post:
+      description: This endpoint responsible for setting score for profile
+      operationId: setScore
+      parameters:
+        - in: query
+          name: newScore
+          schema:
+            type: integer
+            pattern: '^[1-9]\d*$'
+          required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserFullResponse'
+          description: Scores information successfully updated
+        '404':
+          description: 'Not found'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationExceptionResponse'
+        '401':
+          description: 'Unauthorized'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationExceptionResponse'
+      summary: Updating scores information
+      tags:
+        - GameBoard
+    get:
+      description: This endpoint responsible for getting scores information
+      operationId: findScore
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScoresInformation'
+          description: Scores information successfully retrieved
+        '404':
+          description: 'Not found'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationExceptionResponse'
+        '401':
+          description: 'Unauthorized'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApplicationExceptionResponse'
+      summary: Viewing scores information
+      tags:
+        - GameBoard
 
 components:
   schemas:
@@ -164,6 +357,34 @@ components:
         username:
           type: string
       type: object
+
+    UserFullResponse:
+      properties:
+        id:
+          type: string
+        username:
+          type: string
+        totalScore:
+          type: integer
+        lastScore:
+          type: integer
+      type: object
+
+    ScoresInformation:
+      type: object
+      properties:
+        users:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserFullResponse'
+        playerPlaceByLastScore:
+          type: integer
+        playerPlaceByTotalScore:
+          type: integer
+        size:
+          type: integer
+        page:
+          type: integer
 
     ApplicationExceptionResponse:
       type: object
