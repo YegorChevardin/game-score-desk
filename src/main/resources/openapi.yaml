@@ -307,9 +307,8 @@ components:
       properties:
         username:
           type: string
-          pattern: '^(?=[a-zA-Z0-9._]{8,20}$)(?!.*[_.]{2})[^_.].*[^_.]$'
           example: 'Your.Username'
-          minLength: 8
+          minLength: 2
           maxLength: 20
         password:
           pattern: "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$"
@@ -333,9 +332,8 @@ components:
       properties:
         username:
           type: string
-          pattern: '^(?=[a-zA-Z0-9._]{8,20}$)(?!.*[_.]{2})[^_.].*[^_.]$'
           example: 'Your.Username'
-          minLength: 8
+          minLength: 2
           maxLength: 20
         password:
           pattern: "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$"
@@ -353,9 +351,8 @@ components:
           type: string
         username:
           type: string
-          pattern: '^(?=[a-zA-Z0-9._]{8,20}$)(?!.*[_.]{2})[^_.].*[^_.]$'
           example: 'Your.Username'
-          minLength: 8
+          minLength: 2
           maxLength: 20
         password:
           pattern: "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$"
