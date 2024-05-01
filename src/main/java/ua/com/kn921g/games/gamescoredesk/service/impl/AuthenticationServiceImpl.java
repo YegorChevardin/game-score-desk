@@ -43,7 +43,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     if (!passwordEncoder.matches(loginRequestDto.password(), user.getPassword())) {
       throw new Unauthorized401Exception(
-          GameBoardExceptionMessages.CREDENTIALS_NOT_VALID.getMessage());
+          String.format(
+              GameBoardExceptionMessages.CREDENTIALS_NOT_VALID_DETAILED.getMessage(),
+              loginRequestDto.username(),
+              loginRequestDto.password()));
     }
 
     return LoginResponseDto.builder()

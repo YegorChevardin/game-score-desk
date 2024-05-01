@@ -5,9 +5,9 @@ volumes:
   db_data:
 services:
   gameboard:
+    image: gameboard
     build:
       dockerfile: Dockerfile
-    image: gameboard
     ports:
       - "8080:8080"
     networks:
