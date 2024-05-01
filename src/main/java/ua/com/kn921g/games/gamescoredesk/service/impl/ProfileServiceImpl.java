@@ -1,7 +1,6 @@
 package ua.com.kn921g.games.gamescoredesk.service.impl;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ua.com.kn921g.games.gamescoredesk.common.GameBoardExceptionMessages;
@@ -17,6 +16,7 @@ import ua.com.kn921g.games.gamescoredesk.models.mappers.EntityToUserResponseMapp
 import ua.com.kn921g.games.gamescoredesk.repositories.UserRepository;
 import ua.com.kn921g.games.gamescoredesk.service.ProfileService;
 import ua.com.kn921g.games.gamescoredesk.service.security.AuthoritiesService;
+import ua.com.kn921g.games.gamescoredesk.service.security.PasswordService;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -26,7 +26,7 @@ import java.util.UUID;
 public class ProfileServiceImpl implements ProfileService {
   private final AuthoritiesService authoritiesService;
   private final UserRepository userRepository;
-  private final PasswordEncoder passwordEncoder;
+  private final PasswordService passwordService;
   private final EntityToUserFullInformationMapper entityToUserFullInformationMapper;
   private final EntityToUserResponseMapper entityToUserResponseMapper;
 
@@ -35,7 +35,7 @@ public class ProfileServiceImpl implements ProfileService {
   public void deleteUser(String password) {
     User user = findCurrentUserEntity();
 
-    if (!passwordEncoder.matches(password, user.getPassword())) {
+    if (!passwordService.checkPassword(password, user.getPassword())) {
       throw new Unauthorized401Exception(
           GameBoardExceptionMessages.CREDENTIALS_NOT_VALID.getMessage());
     }
@@ -53,7 +53,7 @@ public class ProfileServiceImpl implements ProfileService {
   public UserResponseDto updateUser(String oldPassword, UserRegisterRequestDto updateDto) {
     User user = findCurrentUserEntity();
 
-    if (!passwordEncoder.matches(oldPassword, user.getPassword())) {
+    if (!passwordService.checkPassword(oldPassword, user.getPassword())) {
       throw new Unauthorized401Exception(
           GameBoardExceptionMessages.CREDENTIALS_NOT_VALID.getMessage());
     }
@@ -64,7 +64,7 @@ public class ProfileServiceImpl implements ProfileService {
       throw new DataExistException(GameBoardExceptionMessages.USER_EXISTS.getMessage());
     }
 
-    user.setPassword(passwordEncoder.encode(updateDto.password()));
+    user.setPassword(passwordService.encodePassword(updateDto.password()));
     user.setUsername(updateDto.username());
     userRepository.save(user);
 

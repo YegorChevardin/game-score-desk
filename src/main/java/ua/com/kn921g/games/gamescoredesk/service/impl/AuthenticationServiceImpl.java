@@ -1,7 +1,7 @@
 package ua.com.kn921g.games.gamescoredesk.service.impl;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ua.com.kn921g.games.gamescoredesk.common.GameBoardExceptionMessages;
@@ -20,6 +20,9 @@ import ua.com.kn921g.games.gamescoredesk.repositories.UserRepository;
 import ua.com.kn921g.games.gamescoredesk.service.AuthenticationService;
 import ua.com.kn921g.games.gamescoredesk.service.security.AuthoritiesService;
 import ua.com.kn921g.games.gamescoredesk.service.security.JwtService;
+import ua.com.kn921g.games.gamescoredesk.service.security.PasswordService;
+
+import java.net.URLDecoder;
 
 @Service
 @RequiredArgsConstructor
@@ -29,8 +32,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
   private final JwtService jwtService;
   private final UserRegisterRequestToEntityMapper userRegisterRequestToEntityMapper;
   private final EntityToUserResponseMapper entityToUserResponseMapper;
-  private final PasswordEncoder passwordEncoder;
+  private final PasswordService passwordService;
 
+  @SneakyThrows
   @Override
   public LoginResponseDto loginUser(LoginRequestDto loginRequestDto) {
     User user =
@@ -41,7 +45,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                     new DataNotFoundException(
                         GameBoardExceptionMessages.USER_NOT_FOUND.getMessage()));
 
-    if (!passwordEncoder.matches(loginRequestDto.password(), user.getPassword())) {
+    if (!passwordService.checkPassword(loginRequestDto.password(), user.getPassword())) {
       throw new Unauthorized401Exception(
           String.format(
               GameBoardExceptionMessages.CREDENTIALS_NOT_VALID_DETAILED.getMessage(),
@@ -66,7 +70,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     User user = userRegisterRequestToEntityMapper.dtoToEntity(userRegisterRequestDto);
     user.setRole(Role.USER);
-    user.setPassword(passwordEncoder.encode(user.getPassword()));
+    user.setPassword(passwordService.encodePassword(user.getPassword()));
     user.setTotalScore(0);
     user.setLastScore(0);
     user = userRepository.save(user);

@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ua.com.kn921g.games.gamescoredesk.common.GameBoardExceptionMessages;
@@ -20,6 +19,7 @@ import ua.com.kn921g.games.gamescoredesk.models.mappers.EntityToUserFullInformat
 import ua.com.kn921g.games.gamescoredesk.repositories.UserRepository;
 import ua.com.kn921g.games.gamescoredesk.service.ScoreService;
 import ua.com.kn921g.games.gamescoredesk.service.security.AuthoritiesService;
+import ua.com.kn921g.games.gamescoredesk.service.security.PasswordService;
 
 import java.util.UUID;
 
@@ -29,7 +29,7 @@ public class ScoreServiceImpl implements ScoreService {
   private final UserRepository userRepository;
   private final AuthoritiesService authoritiesService;
   private final EntityToUserFullInformationMapper entityToUserFullInformationMapper;
-  private final PasswordEncoder passwordEncoder;
+  private final PasswordService passwordService;
 
   @Override
   public ScoresInformationDto findScoresInformation(Integer page, Integer size, String scoreType) {
@@ -60,7 +60,7 @@ public class ScoreServiceImpl implements ScoreService {
   public UserFullResponseDto resetScore(String password) {
     User currentUser = findCurrentUserEntity();
 
-    if (!passwordEncoder.matches(password, currentUser.getPassword())) {
+    if (!passwordService.checkPassword(password, currentUser.getPassword())) {
       throw new Unauthorized401Exception(
           GameBoardExceptionMessages.CREDENTIALS_NOT_VALID.getMessage());
     }
